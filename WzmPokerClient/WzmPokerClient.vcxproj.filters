@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{49e24421-21e0-4e6c-a656-541a209a4387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net">
+      <UniqueIdentifier>{0adff750-0366-470c-b50b-a31fb5205758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\socket">
+      <UniqueIdentifier>{e38006a2-5aa0-49da-9654-12477c851757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\thread">
+      <UniqueIdentifier>{33cd222b-bb00-42a0-bc4a-c66cfe103dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\log">
+      <UniqueIdentifier>{2f9bdb72-f0a6-4271-8ff0-9e61a633e8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphic">
+      <UniqueIdentifier>{a3d954f3-aedf-479c-bdf7-88e578611e3d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="net\ClientSocket.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\thread\ThreadObject.cpp">
+      <Filter>common\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\socket\PokerSocket.cpp">
+      <Filter>common\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\log\PokerLog.cpp">
+      <Filter>common\log</Filter>
+    </ClCompile>
+    <ClCompile Include="graphic\d2d.cpp">
+      <Filter>graphic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\Exception.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\PokerMessage.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="net\ClientSocket.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\thread\ThreadObject.h">
+      <Filter>common\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\socket\PokerSocket.h">
+      <Filter>common\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\log\PokerLog.h">
+      <Filter>common\log</Filter>
+    </ClInclude>
+    <ClInclude Include="graphic\d2d.h">
+      <Filter>graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WzmPokerClient.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\102.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\103.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\104.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\105.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\106.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\107.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\108.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\109.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\110.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\111.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\112.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\113.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\114.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\202.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\203.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\204.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\205.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\206.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\207.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\208.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\209.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\210.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\211.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\212.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\213.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\214.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\302.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\303.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\304.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\305.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\306.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\307.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\308.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\309.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\310.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\311.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\312.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\313.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\314.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\402.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\403.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\404.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\405.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\406.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\407.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\408.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\409.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\410.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\411.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\412.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\413.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\414.png">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
