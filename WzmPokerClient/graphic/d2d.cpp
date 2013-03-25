@@ -6,7 +6,10 @@
 d2d::d2d()
     :m_pD2DFactory(nullptr),
      m_pRenderTarget(nullptr),
-     m_pWICFactory(nullptr)
+     m_pWICFactory(nullptr),
+     m_pDWriteFactory(nullptr),
+     m_pTextFormat(nullptr),
+     m_pBlackBrush(nullptr)
 {
 }
 
@@ -39,6 +42,7 @@ HRESULT d2d::Initialize( HWND hWnd )
         return S_FALSE;
     }
 
+    InitTextDevice();
     return S_OK;
 }
 
@@ -50,12 +54,15 @@ void d2d::CleanUp()
     }
     m_VecBitmap.clear();
 
+    SafeRelease(m_pBlackBrush);
     SafeRelease(m_pRenderTarget);
     SafeRelease(m_pD2DFactory);
 }
 
 void d2d::Render()
 {
+    static const WCHAR sc_helloWorld[] = L"Hello, World!";
+
     m_pRenderTarget->BeginDraw() ;
 
     // Clear background color to dark cyan
@@ -63,10 +70,10 @@ void d2d::Render()
 
     // Draw bitmap
     FLOAT left = 20;
-    FLOAT top = 50;
+    FLOAT top = 300;
 
     FLOAT deltaX = 50;
-    FLOAT deltaY = 10;
+    FLOAT deltaY = 0;
     for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
     {
         if ((*it) == nullptr)
@@ -81,6 +88,14 @@ void d2d::Render()
         left += deltaX;
         top  += deltaY;
     }
+
+    D2D1_SIZE_F renderTargetSize = m_pRenderTarget->GetSize();
+    m_pRenderTarget->DrawText(
+            sc_helloWorld,
+            ARRAYSIZE(sc_helloWorld) - 1,
+            m_pTextFormat,
+            D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
+            m_pBlackBrush);
 
     HRESULT hr = m_pRenderTarget->EndDraw();
 
@@ -127,7 +142,8 @@ bool d2d::CreateBitmapFromResource(int idPng)
     }
 
     // Load the resource.
-    HGLOBAL imageResDataHandle = LoadResource(NULL, imageResHandle); //If hModule is NULL, the system loads the resource from the module that was used to create the current process
+    HGLOBAL imageResDataHandle = LoadResource(NULL, imageResHandle);
+    //If hModule is NULL, the system loads the resource from the module that was used to create the current process
 
     HRESULT hr = imageResDataHandle ? S_OK : E_FAIL;
     if (FAILED(hr))
@@ -309,5 +325,46 @@ bool d2d::CreateBitmapFromFile(wstring strFileName)
     SafeRelease(pConverter);
 
     return true;
+}
+
+void d2d::InitTextDevice()
+{
+    if (m_pD2DFactory == nullptr)
+    {
+        return;
+    }
+    
+    // Create a DirectWrite factory.
+    HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(m_pDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+    if (FAILED(hr) || m_pDWriteFactory == nullptr)
+    {
+        return;
+    }
+
+    static const WCHAR msc_fontName[] = L"Verdana";
+    static const FLOAT msc_fontSize = 50;
+
+    // Create a DirectWrite text format object.
+    hr = m_pDWriteFactory->CreateTextFormat(
+            msc_fontName,
+            NULL,
+            DWRITE_FONT_WEIGHT_NORMAL,
+            DWRITE_FONT_STYLE_NORMAL,
+            DWRITE_FONT_STRETCH_NORMAL,
+            msc_fontSize,
+            L"", //locale
+            &m_pTextFormat);
+    
+    if (FAILED(hr) || m_pTextFormat == nullptr)
+    {
+        return;
+    }
+
+    // Center the text horizontally and vertically.
+    m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+
+    m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+    hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_pBlackBrush);
 }
 

@@ -4,6 +4,7 @@
 
 #include <d2d1.h>
 #include <wincodec.h>
+#include <dwrite.h>
 
 #include <vector>
 #include <string>
@@ -26,12 +27,17 @@ public:
 private:
     bool CreateBitmapFromResource(int idPng);
     bool CreateBitmapFromFile(wstring strFileName);
+    void InitTextDevice();
 
     ID2D1Factory* m_pD2DFactory;
-    IWICImagingFactory *m_pWICFactory;
+    IWICImagingFactory* m_pWICFactory;
     ID2D1HwndRenderTarget* m_pRenderTarget;
 
-    vector<ID2D1Bitmap *> m_VecBitmap;
+    vector<ID2D1Bitmap*> m_VecBitmap;
+
+    IDWriteFactory* m_pDWriteFactory;
+    IDWriteTextFormat* m_pTextFormat;
+    ID2D1SolidColorBrush* m_pBlackBrush;
 };
 
 template<class Interface>
