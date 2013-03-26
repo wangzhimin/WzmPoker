@@ -18,14 +18,19 @@ public:
     ~d2d();
 
     HRESULT Initialize( HWND hWnd );
-    void Render();
     void CleanUp();
+
+    void BeginDraw();
+    void Render();
+    void EndDraw();
+
     void OnResize(unsigned int width, unsigned int height);
 
     void LoadPicures();
+    void DrawText(wstring strText);
 
 private:
-    bool CreateBitmapFromResource(int idPng);
+    bool CreateBitmapFromResource(int idPic);
     bool CreateBitmapFromFile(wstring strFileName);
     void InitTextDevice();
 

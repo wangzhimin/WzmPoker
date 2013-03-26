@@ -85,14 +85,16 @@ void Application::Run()
     //进入消息循环
     MSG msg;
     ZeroMemory( &msg, sizeof(msg) );
-    while( msg.message != WM_QUIT )
-    {
-        if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) )
+    //while( msg.message != WM_QUIT )
+    //{
+    //    if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) )
+    while (GetMessage(&msg, NULL, 0, 0))
+
         {
             TranslateMessage( &msg );
             DispatchMessage( &msg );
         }
-    }
+    //}
 }
 
 
@@ -128,7 +130,11 @@ void Application::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         return;
 
     case WM_PAINT:
+        graphic->BeginDraw();
         graphic->Render();
+        graphic->DrawText( L"Hello, World!");
+        graphic->EndDraw();
+
         ValidateRect( hWnd, NULL );
         return;
 

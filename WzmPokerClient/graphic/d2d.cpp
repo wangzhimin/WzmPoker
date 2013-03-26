@@ -59,12 +59,25 @@ void d2d::CleanUp()
     SafeRelease(m_pD2DFactory);
 }
 
+void d2d::BeginDraw()
+{
+    m_pRenderTarget->BeginDraw();
+}
+
+void d2d::EndDraw()
+{
+    HRESULT hr = m_pRenderTarget->EndDraw();
+
+    if (FAILED(hr))
+    {
+        MessageBox(NULL, L"EndDraw failed!", L"Error", 0) ;
+
+        return ;
+    }
+}
+
 void d2d::Render()
 {
-    static const WCHAR sc_helloWorld[] = L"Hello, World!";
-
-    m_pRenderTarget->BeginDraw() ;
-
     // Clear background color to dark cyan
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
@@ -88,23 +101,15 @@ void d2d::Render()
         left += deltaX;
         top  += deltaY;
     }
+}
 
+void d2d::DrawText(wstring strText)
+{
     D2D1_SIZE_F renderTargetSize = m_pRenderTarget->GetSize();
-    m_pRenderTarget->DrawText(
-            sc_helloWorld,
-            ARRAYSIZE(sc_helloWorld) - 1,
+    m_pRenderTarget->DrawText(strText.c_str(), strText.size(),
             m_pTextFormat,
             D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
             m_pBlackBrush);
-
-    HRESULT hr = m_pRenderTarget->EndDraw();
-
-    if (FAILED(hr))
-    {
-        MessageBox(NULL, L"Draw failed!", L"Error", 0) ;
-
-        return ;
-    }
 }
 
 void d2d::OnResize(unsigned int width, unsigned int height)
@@ -132,10 +137,10 @@ void d2d::LoadPicures()
     }
 }
 
-bool d2d::CreateBitmapFromResource(int idPng)
+bool d2d::CreateBitmapFromResource(int idPic)
 {
     // Locate the resource.
-    HRSRC imageResHandle = FindResource(NULL, MAKEINTRESOURCE(idPng), L"PNG");
+    HRSRC imageResHandle = FindResource(NULL, MAKEINTRESOURCE(idPic), L"PNG");
     if (imageResHandle == nullptr)
     {
         return false;
