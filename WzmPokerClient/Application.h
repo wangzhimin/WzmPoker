@@ -25,6 +25,9 @@ public:
     void HandleKey(unsigned int keyCode);
 
 private:
+    void LoadBitmapResource();
+    void UnloadBitmapResource();
+
     virtual void _process();
     void handleMessage(int msg);
     void onPaint();

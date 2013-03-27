@@ -57,16 +57,8 @@ bool Application::Initialize()
         return false;
     }
 
-    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
-    {
-        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index);
-        if (pBitmap != nullptr)
-        {
-            m_VecBitmap.push_back(pBitmap);
-        }
-    }
+    LoadBitmapResource();
     
-
     //ÏÔÊ¾Ö÷´°¿Ú
     ShowWindow( hWnd, SW_SHOWDEFAULT );
     UpdateWindow( hWnd );
@@ -89,12 +81,7 @@ void Application::CleanUp()
 
     clientSocket.Close();
 
-    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-    {
-        SafeRelease(*it);
-    }
-    m_VecBitmap.clear();
-
+    UnloadBitmapResource();
 
     graphic->CleanUp();
     UnregisterClass( class_name, hInst );
@@ -194,6 +181,27 @@ void Application::HandleKey(unsigned int keyCode)
         }
         break;
     }
+}
+
+//private function
+void Application::LoadBitmapResource()
+{
+    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
+    {
+        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index);
+        if (pBitmap != nullptr)
+        {
+            m_VecBitmap.push_back(pBitmap);
+        }
+    }
+}
+void Application::UnloadBitmapResource()
+{
+    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
+    {
+        SafeRelease(*it);
+    }
+    m_VecBitmap.clear();
 }
 
 void Application::_process()
