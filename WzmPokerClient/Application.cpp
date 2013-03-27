@@ -2,13 +2,13 @@
 #include "Application.h"
 
 #include "PokerMessage.h"
-#include "d2d.h"
 #include "PokerLog.h"
+#include "resource.h"
 
 
 Application::Application()
     :m_run(true),
-     graphic(nullptr)
+    graphic(nullptr)
 {
 }
 
@@ -35,11 +35,10 @@ bool Application::Initialize()
     int StartX = (DesktopWidth - WindowWidth)/2;
     int StartY = (DesktopHeight - WindowHeight)/2;
 
-
     //创建窗口
     HWND hWnd = CreateWindow( L"ClassName", L"WzmPoker", 
-                              WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
-                              NULL, NULL, wc.hInstance, this );
+        WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
+        NULL, NULL, wc.hInstance, this );
 
     if (!hWnd)
     {
@@ -54,7 +53,14 @@ bool Application::Initialize()
         MessageBox(hWnd, L"graphic Initialize fail.", L"error", 0);
         return false;
     }
-
+    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
+    {
+        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index);
+        if (pBitmap != nullptr)
+        {
+            m_VecBitmap.push_back(pBitmap);
+        }
+    }
     //显示主窗口
     ShowWindow( hWnd, SW_SHOWDEFAULT );
     UpdateWindow( hWnd );
@@ -67,7 +73,7 @@ bool Application::Initialize()
     hInst = wc.hInstance;
 
     pokerlog << "Application::Initialize() ok." << endl;
-    
+
     return true;
 }
 
@@ -76,6 +82,14 @@ void Application::CleanUp()
     m_run = false;
 
     clientSocket.Close();
+
+    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
+    {
+        SafeRelease(*it);
+    }
+    m_VecBitmap.clear();
+
+
     graphic->CleanUp();
     UnregisterClass( L"ClassName", hInst );
 
@@ -92,10 +106,10 @@ void Application::Run()
     //    if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) )
     while (GetMessage(&msg, NULL, 0, 0))
 
-        {
-            TranslateMessage( &msg );
-            DispatchMessage( &msg );
-        }
+    {
+        TranslateMessage( &msg );
+        DispatchMessage( &msg );
+    }
     //}
 }
 
@@ -216,11 +230,27 @@ void Application::onPaint()
     if (graphic != nullptr)
     {
         graphic->BeginDraw();
-        
+
         graphic->ClearBackground();
 
-        graphic->ShowPictures();
-        graphic->ShowText( L"Hello, World!");
+        FLOAT left = 20;
+        FLOAT top = 300;
+
+        FLOAT deltaX = 50;
+        FLOAT deltaY = 0;
+        for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
+        {
+            if ((*it) != nullptr)
+            {
+                graphic->ShowBitmap((*it), left, top);
+
+                left += deltaX;
+                top  += deltaY;
+            }
+        }
+        D2D1_RECT_F pos = {100, 100, 300, 300};
+
+        graphic->ShowText( L"Hello, World!", pos);
 
         graphic->EndDraw();
     }

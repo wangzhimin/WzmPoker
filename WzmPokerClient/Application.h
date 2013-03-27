@@ -5,7 +5,9 @@
 #include "ClientSocket.h"
 #include "ThreadObject.h"
 
-class d2d;
+#include "d2d.h"
+
+
 class Application : public CThreadObject
 {
 public:
@@ -33,6 +35,7 @@ private:
     bool m_run;
     ClientSocket clientSocket;
 
+    vector<ID2D1Bitmap*> m_VecBitmap;
 };
 
 

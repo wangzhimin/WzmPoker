@@ -42,7 +42,6 @@ HRESULT d2d::Initialize( HWND hWnd )
         return S_FALSE;
     }
 
-    InitPicures();
     InitTextDevice();
 
     return S_OK;
@@ -62,17 +61,17 @@ void d2d::CleanUp()
 }
 
 
-void d2d::InitPicures()
-{
-    //CreateBitmapFromFile(L"102.png");
-    //CreateBitmapFromFile(L"103.png");
-
-    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
-    {
-        CreateBitmapFromResource(index);
-    }
-    pokerlog << "LoadPictures OK." << endl;
-}
+//void d2d::InitPicures()
+//{
+//    //CreateBitmapFromFile(L"102.png");
+//    //CreateBitmapFromFile(L"103.png");
+//
+//    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
+//    {
+//        CreateBitmapFromResource(index);
+//    }
+//    pokerlog << "LoadPictures OK." << endl;
+//}
 
 
 void d2d::InitTextDevice()
@@ -119,84 +118,13 @@ void d2d::InitTextDevice()
 }
 
 
-void d2d::BeginDraw()
-{
-    m_pRenderTarget->BeginDraw();
-}
-
-void d2d::EndDraw()
-{
-    HRESULT hr = m_pRenderTarget->EndDraw();
-
-    if (FAILED(hr))
-    {
-        MessageBox(NULL, L"EndDraw failed!", L"Error", 0) ;
-
-        return ;
-    }
-}
-
-void d2d::ClearBackground()
-{
-    // Clear background
-    m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
-}
-
-void d2d::ShowPictures()
-{
-    // Draw bitmap
-    FLOAT left = 20;
-    FLOAT top = 300;
-
-    FLOAT deltaX = 50;
-    FLOAT deltaY = 0;
-    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-    {
-        if ((*it) == nullptr)
-        {
-            continue;
-        }
-
-        D2D1_SIZE_F size = (*it)->GetSize() ;
-
-        m_pRenderTarget->DrawBitmap((*it), D2D1::RectF(left, top, left + size.width, top + size.height)) ;
-
-        left += deltaX;
-        top  += deltaY;
-    }
-}
-
-void d2d::ShowText(wstring strText)
-{
-    D2D1_SIZE_F renderTargetSize = m_pRenderTarget->GetSize();
-    m_pRenderTarget->DrawText(strText.c_str(), strText.size(),
-            m_pTextFormat,
-            D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
-            m_pBlackBrush);
-}
-
-void d2d::OnResize(unsigned int width, unsigned int height)
-{
-    if (m_pRenderTarget != nullptr)
-    {
-        D2D1_SIZE_U size = {width, height};
-
-        // Note: This method can fail, but it's okay to ignore the
-        // error here -- it will be repeated on the next call to
-        // EndDraw.
-        m_pRenderTarget->Resize(size);
-    }
-}
-
-
-
-bool d2d::CreateBitmapFromResource(int idPic)
+ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic)
 {
     // Locate the resource.
     HRSRC imageResHandle = FindResource(NULL, MAKEINTRESOURCE(idPic), L"PNG");
     if (imageResHandle == nullptr)
     {
-        return false;
+        return nullptr;
     }
 
     // Load the resource.
@@ -206,21 +134,21 @@ bool d2d::CreateBitmapFromResource(int idPic)
     HRESULT hr = imageResDataHandle ? S_OK : E_FAIL;
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
 
     // Lock it to get a system memory pointer.
     void* pImageFile = LockResource(imageResDataHandle);
     if (pImageFile == nullptr)
     {
-        return false;
+        return nullptr;
     }
         
     // Calculate the size.
     DWORD imageFileSize = SizeofResource(NULL, imageResHandle);
     if (imageFileSize == 0)
     {
-        return false;
+        return nullptr;
     }
     
     // Create a WIC stream to map onto the memory.
@@ -229,14 +157,14 @@ bool d2d::CreateBitmapFromResource(int idPic)
     hr = m_pWICFactory->CreateStream(&pStream);
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
         
     // Initialize the stream with the memory pointer and size.
     hr = pStream->InitializeFromMemory(reinterpret_cast<BYTE*>(pImageFile), imageFileSize);
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
     
     // Create a decoder for the stream.
@@ -245,7 +173,7 @@ bool d2d::CreateBitmapFromResource(int idPic)
     hr = m_pWICFactory->CreateDecoderFromStream(pStream, NULL, WICDecodeMetadataCacheOnLoad, &pDecoder);
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
     
     // Create the initial frame.
@@ -254,7 +182,7 @@ bool d2d::CreateBitmapFromResource(int idPic)
     hr = pDecoder->GetFrame(0, &pSource);
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
 
     // Convert the image format to 32bppPBGRA
@@ -264,7 +192,7 @@ bool d2d::CreateBitmapFromResource(int idPic)
     hr = m_pWICFactory->CreateFormatConverter(&pConverter);
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
 
     int destinationWidth = 0;
@@ -309,7 +237,7 @@ bool d2d::CreateBitmapFromResource(int idPic)
     }
     if (FAILED(hr))
     {
-        return false;
+        return nullptr;
     }
 
     //create a Direct2D bitmap from the WIC bitmap.
@@ -318,17 +246,93 @@ bool d2d::CreateBitmapFromResource(int idPic)
     hr = m_pRenderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, &resBitmap);
     if (FAILED(hr) || resBitmap == nullptr)
     {
-        return false;
+        return nullptr;
     }
-    m_VecBitmap.push_back(resBitmap);
+    //m_VecBitmap.push_back(resBitmap);
 
     SafeRelease(pDecoder);
     SafeRelease(pSource);
     SafeRelease(pStream);
     SafeRelease(pConverter);
 
-    return true;
+    pokerlog << "CreateBitmapFromResource " << idPic << " OK." << endl;
+    return resBitmap;
 }
+
+void d2d::BeginDraw()
+{
+    m_pRenderTarget->BeginDraw();
+}
+
+void d2d::EndDraw()
+{
+    HRESULT hr = m_pRenderTarget->EndDraw();
+
+    if (FAILED(hr))
+    {
+        MessageBox(NULL, L"EndDraw failed!", L"Error", 0) ;
+
+        return ;
+    }
+}
+
+void d2d::ClearBackground()
+{
+    // Clear background
+    m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
+}
+
+//void d2d::ShowPictures()
+//{
+//    // Draw bitmap
+//    FLOAT left = 20;
+//    FLOAT top = 300;
+//
+//    FLOAT deltaX = 50;
+//    FLOAT deltaY = 0;
+//    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
+//    {
+//        if ((*it) == nullptr)
+//        {
+//            continue;
+//        }
+//
+//        D2D1_SIZE_F size = (*it)->GetSize() ;
+//
+//        m_pRenderTarget->DrawBitmap((*it), D2D1::RectF(left, top, left + size.width, top + size.height)) ;
+//
+//        left += deltaX;
+//        top  += deltaY;
+//    }
+//}
+
+void d2d::ShowBitmap(ID2D1Bitmap* pBitmap, FLOAT x, FLOAT y)
+{
+    D2D1_SIZE_F size = pBitmap->GetSize() ;
+
+    m_pRenderTarget->DrawBitmap(pBitmap, D2D1::RectF(x, y, x + size.width, y + size.height)) ;
+}
+
+
+void d2d::ShowText(wstring strText, D2D1_RECT_F position)
+{
+    m_pRenderTarget->DrawText(strText.c_str(), strText.size(),
+            m_pTextFormat, position, m_pBlackBrush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+}
+
+void d2d::OnResize(unsigned int width, unsigned int height)
+{
+    if (m_pRenderTarget != nullptr)
+    {
+        D2D1_SIZE_U size = {width, height};
+
+        // Note: This method can fail, but it's okay to ignore the
+        // error here -- it will be repeated on the next call to
+        // EndDraw.
+        m_pRenderTarget->Resize(size);
+    }
+}
+
 
 
 //从一个文件加载图片

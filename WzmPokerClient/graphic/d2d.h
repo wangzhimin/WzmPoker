@@ -23,6 +23,9 @@ public:
     void InitPicures();
     void InitTextDevice();
 
+    ID2D1Bitmap* CreateBitmapFromResource(int idPic);
+
+
     void BeginDraw();
     void EndDraw();
 
@@ -30,10 +33,10 @@ public:
     void OnResize(unsigned int width, unsigned int height);
 
     void ShowPictures();
-    void ShowText(wstring strText);
+    void ShowBitmap(ID2D1Bitmap* pBitmap, FLOAT x, FLOAT y);
+    void ShowText(wstring strText, D2D1_RECT_F position);
 
 private:
-    bool CreateBitmapFromResource(int idPic);
     bool CreateBitmapFromFile(wstring strFileName);
 
     ID2D1Factory* m_pD2DFactory;
