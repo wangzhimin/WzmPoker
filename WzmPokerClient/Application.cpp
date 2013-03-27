@@ -61,6 +61,10 @@ bool Application::Initialize()
             m_VecBitmap.push_back(pBitmap);
         }
     }
+    static const WCHAR msc_fontName[] = L"Verdana";
+    static const FLOAT msc_fontSize = 50;
+    graphic->InitTextDevice();
+
     //ÏÔÊ¾Ö÷´°¿Ú
     ShowWindow( hWnd, SW_SHOWDEFAULT );
     UpdateWindow( hWnd );

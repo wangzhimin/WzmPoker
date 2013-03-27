@@ -20,8 +20,7 @@ public:
     HRESULT Initialize( HWND hWnd );
     void CleanUp();
 
-    void InitPicures();
-    void InitTextDevice();
+    void InitTextDevice(const wstring fontName = L"ËÎÌו", FLOAT fontSize = 12);
 
     ID2D1Bitmap* CreateBitmapFromResource(int idPic);
     ID2D1Bitmap* CreateBitmapFromFile(wstring strFileName);

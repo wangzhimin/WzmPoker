@@ -42,8 +42,6 @@ HRESULT d2d::Initialize( HWND hWnd )
         return S_FALSE;
     }
 
-    InitTextDevice();
-
     return S_OK;
 }
 
@@ -54,7 +52,7 @@ void d2d::CleanUp()
     SafeRelease(m_pD2DFactory);
 }
 
-void d2d::InitTextDevice()
+void d2d::InitTextDevice(const wstring fontName, FLOAT fontSize)
 {
     if (m_pD2DFactory == nullptr)
     {
@@ -68,17 +66,14 @@ void d2d::InitTextDevice()
         return;
     }
 
-    static const WCHAR msc_fontName[] = L"Verdana";
-    static const FLOAT msc_fontSize = 50;
-
     // Create a DirectWrite text format object.
     hr = m_pDWriteFactory->CreateTextFormat(
-            msc_fontName,
+            fontName.c_str(),
             NULL,
             DWRITE_FONT_WEIGHT_NORMAL,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
-            msc_fontSize,
+            fontSize,
             L"", //locale
             &m_pTextFormat);
     
