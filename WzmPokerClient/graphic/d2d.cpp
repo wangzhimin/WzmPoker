@@ -48,7 +48,10 @@ HRESULT d2d::Initialize( HWND hWnd )
 void d2d::CleanUp()
 {
     SafeRelease(m_pBlackBrush);
+    SafeRelease(m_pTextFormat);
     SafeRelease(m_pRenderTarget);
+    SafeRelease(m_pDWriteFactory);
+    SafeRelease(m_pWICFactory);
     SafeRelease(m_pD2DFactory);
 }
 
