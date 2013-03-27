@@ -36,9 +36,9 @@ bool Application::Initialize()
     int StartY = (DesktopHeight - WindowHeight)/2;
 
     //´´½¨´°¿Ú
-    HWND hWnd = CreateWindow( L"ClassName", L"WzmPoker", 
-        WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
-        NULL, NULL, wc.hInstance, this );
+    HWND hWnd = CreateWindow(L"PokerClass", L"WzmPoker", 
+                             WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
+                             NULL, NULL, wc.hInstance, this );
 
     if (!hWnd)
     {
@@ -91,7 +91,7 @@ void Application::CleanUp()
 
 
     graphic->CleanUp();
-    UnregisterClass( L"ClassName", hInst );
+    UnregisterClass( L"PokerClass", hInst );
 
     pokerlog << "Application::CleanUp() ok." << endl;
 }

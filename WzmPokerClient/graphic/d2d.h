@@ -24,6 +24,7 @@ public:
     void InitTextDevice();
 
     ID2D1Bitmap* CreateBitmapFromResource(int idPic);
+    ID2D1Bitmap* CreateBitmapFromFile(wstring strFileName);
 
 
     void BeginDraw();
@@ -37,15 +38,12 @@ public:
     void ShowText(wstring strText, D2D1_RECT_F position);
 
 private:
-    bool CreateBitmapFromFile(wstring strFileName);
 
     ID2D1Factory* m_pD2DFactory;
     IWICImagingFactory* m_pWICFactory;
-    ID2D1HwndRenderTarget* m_pRenderTarget;
-
-    vector<ID2D1Bitmap*> m_VecBitmap;
-
     IDWriteFactory* m_pDWriteFactory;
+    ID2D1HwndRenderTarget* m_pRenderTarget;
+    
     IDWriteTextFormat* m_pTextFormat;
     ID2D1SolidColorBrush* m_pBlackBrush;
 };

@@ -49,30 +49,10 @@ HRESULT d2d::Initialize( HWND hWnd )
 
 void d2d::CleanUp()
 {
-    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-    {
-        SafeRelease(*it);
-    }
-    m_VecBitmap.clear();
-
     SafeRelease(m_pBlackBrush);
     SafeRelease(m_pRenderTarget);
     SafeRelease(m_pD2DFactory);
 }
-
-
-//void d2d::InitPicures()
-//{
-//    //CreateBitmapFromFile(L"102.png");
-//    //CreateBitmapFromFile(L"103.png");
-//
-//    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
-//    {
-//        CreateBitmapFromResource(index);
-//    }
-//    pokerlog << "LoadPictures OK." << endl;
-//}
-
 
 void d2d::InitTextDevice()
 {
@@ -248,7 +228,6 @@ ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic)
     {
         return nullptr;
     }
-    //m_VecBitmap.push_back(resBitmap);
 
     SafeRelease(pDecoder);
     SafeRelease(pSource);
@@ -257,6 +236,58 @@ ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic)
 
     pokerlog << "CreateBitmapFromResource " << idPic << " OK." << endl;
     return resBitmap;
+}
+
+//从一个文件加载图片
+ID2D1Bitmap* d2d::CreateBitmapFromFile(wstring strFileName)
+{
+    IWICBitmapDecoder *pDecoder = nullptr;
+    HRESULT hr = m_pWICFactory->CreateDecoderFromFilename(strFileName.c_str(), NULL, GENERIC_READ,
+                                                          WICDecodeMetadataCacheOnLoad, //enum WICDecodeOptions
+                                                          &pDecoder);
+
+    if (FAILED(hr))
+    {
+        return nullptr;
+    }
+
+     // Create the initial frame.
+    IWICBitmapFrameDecode *pSource = nullptr;
+    hr = pDecoder->GetFrame(0, &pSource);
+    if (FAILED(hr))
+    {
+        return nullptr;
+    }
+
+    //转换器
+    IWICFormatConverter *pConverter = nullptr;
+    hr = m_pWICFactory->CreateFormatConverter(&pConverter);
+    if (FAILED(hr))
+    {
+        return nullptr;
+    }
+
+    hr = pConverter->Initialize(pSource, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone,
+                                NULL, 0.f, WICBitmapPaletteTypeMedianCut);
+ 
+    if (FAILED(hr))
+    {
+        return nullptr;
+    }
+    
+    // Create a Direct2D bitmap from the WIC bitmap.
+    ID2D1Bitmap* picBitmap = nullptr;
+    hr = m_pRenderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, &picBitmap);
+    if (FAILED(hr))
+    {
+        return nullptr;
+    }
+
+    SafeRelease(pDecoder);
+    SafeRelease(pSource);
+    SafeRelease(pConverter);
+
+    return picBitmap;
 }
 
 void d2d::BeginDraw()
@@ -281,30 +312,6 @@ void d2d::ClearBackground()
     // Clear background
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 }
-
-//void d2d::ShowPictures()
-//{
-//    // Draw bitmap
-//    FLOAT left = 20;
-//    FLOAT top = 300;
-//
-//    FLOAT deltaX = 50;
-//    FLOAT deltaY = 0;
-//    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-//    {
-//        if ((*it) == nullptr)
-//        {
-//            continue;
-//        }
-//
-//        D2D1_SIZE_F size = (*it)->GetSize() ;
-//
-//        m_pRenderTarget->DrawBitmap((*it), D2D1::RectF(left, top, left + size.width, top + size.height)) ;
-//
-//        left += deltaX;
-//        top  += deltaY;
-//    }
-//}
 
 void d2d::ShowBitmap(ID2D1Bitmap* pBitmap, FLOAT x, FLOAT y)
 {
@@ -334,58 +341,4 @@ void d2d::OnResize(unsigned int width, unsigned int height)
 }
 
 
-
-//从一个文件加载图片
-bool d2d::CreateBitmapFromFile(wstring strFileName)
-{
-    IWICBitmapDecoder *pDecoder = nullptr;
-    HRESULT hr = m_pWICFactory->CreateDecoderFromFilename(strFileName.c_str(), NULL, GENERIC_READ,
-                                                          WICDecodeMetadataCacheOnLoad, //enum WICDecodeOptions
-                                                          &pDecoder);
-
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-     // Create the initial frame.
-    IWICBitmapFrameDecode *pSource = nullptr;
-    hr = pDecoder->GetFrame(0, &pSource);
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-    //转换器
-    IWICFormatConverter *pConverter = nullptr;
-    hr = m_pWICFactory->CreateFormatConverter(&pConverter);
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-    hr = pConverter->Initialize(pSource, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone,
-                                NULL, 0.f, WICBitmapPaletteTypeMedianCut);
- 
-    if (FAILED(hr))
-    {
-        return false;
-    }
-    
-    // Create a Direct2D bitmap from the WIC bitmap.
-    ID2D1Bitmap* picBitmap = nullptr;
-    hr = m_pRenderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, &picBitmap);
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-    m_VecBitmap.push_back(picBitmap);
-
-    SafeRelease(pDecoder);
-    SafeRelease(pSource);
-    SafeRelease(pConverter);
-
-    return true;
-}
 
