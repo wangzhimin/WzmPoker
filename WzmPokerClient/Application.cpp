@@ -5,6 +5,7 @@
 #include "PokerLog.h"
 #include "resource.h"
 
+static LPCWSTR class_name = L"PokerClass";
 
 Application::Application()
     :m_run(true),
@@ -22,7 +23,7 @@ bool Application::Initialize()
     //注册窗口类
     WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, Application::StaticMsgProc, 0L, 0L, 
                       GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-                      L"ClassName", NULL };
+                      class_name, NULL };
     RegisterClassEx( &wc );
 
     const int WindowWidth = 800;
@@ -36,12 +37,14 @@ bool Application::Initialize()
     int StartY = (DesktopHeight - WindowHeight)/2;
 
     //创建窗口
-    HWND hWnd = CreateWindow(L"PokerClass", L"WzmPoker", 
+    HWND hWnd = CreateWindow(class_name, L"WzmPoker", 
                              WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
                              NULL, NULL, wc.hInstance, this );
 
     if (!hWnd)
     {
+        pokerlog << "Application::Initialize() CreateWindow Fail, Error = ." << GetLastError() << endl;
+
         return false;
     }
 
@@ -53,6 +56,8 @@ bool Application::Initialize()
         MessageBox(hWnd, L"graphic Initialize fail.", L"error", 0);
         return false;
     }
+    graphic->InitTextDevice();
+
     for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
     {
         ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index);
@@ -61,9 +66,7 @@ bool Application::Initialize()
             m_VecBitmap.push_back(pBitmap);
         }
     }
-    static const WCHAR msc_fontName[] = L"Verdana";
-    static const FLOAT msc_fontSize = 50;
-    graphic->InitTextDevice();
+    
 
     //显示主窗口
     ShowWindow( hWnd, SW_SHOWDEFAULT );
@@ -95,7 +98,7 @@ void Application::CleanUp()
 
 
     graphic->CleanUp();
-    UnregisterClass( L"PokerClass", hInst );
+    UnregisterClass( class_name, hInst );
 
     pokerlog << "Application::CleanUp() ok." << endl;
 }
