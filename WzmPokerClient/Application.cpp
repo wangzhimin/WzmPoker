@@ -2,7 +2,6 @@
 #include "Application.h"
 
 #include "PokerMessage.h"
-#include "Direct3d.h"
 #include "d2d.h"
 #include "PokerLog.h"
 
@@ -36,22 +35,25 @@ bool Application::Initialize()
     int StartX = (DesktopWidth - WindowWidth)/2;
     int StartY = (DesktopHeight - WindowHeight)/2;
 
+
     //创建窗口
     HWND hWnd = CreateWindow( L"ClassName", L"WzmPoker", 
                               WS_OVERLAPPEDWINDOW, StartX, StartY, WindowWidth, WindowHeight,
                               NULL, NULL, wc.hInstance, this );
 
+    if (!hWnd)
+    {
+        return false;
+    }
+
     graphic = new d2d();
 
     HRESULT hr = graphic->Initialize( hWnd ); //初始化图形系统
-    
     if( FAILED(hr) )
     {
         MessageBox(hWnd, L"graphic Initialize fail.", L"error", 0);
         return false;
     }
-
-    graphic->LoadPicures();
 
     //显示主窗口
     ShowWindow( hWnd, SW_SHOWDEFAULT );
@@ -130,15 +132,13 @@ void Application::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         return;
 
     case WM_PAINT:
-        graphic->BeginDraw();
-        graphic->Render();
-        graphic->DrawText( L"Hello, World!");
-        graphic->EndDraw();
+        onPaint();
 
         ValidateRect( hWnd, NULL );
         return;
 
     case WM_SIZE:
+        if (graphic != nullptr)
         {
             UINT width = LOWORD(lParam);
             UINT height = HIWORD(lParam);
@@ -207,6 +207,22 @@ void Application::handleMessage(int msg)
     case POKER_MSG_LOG_ACCEPT:
         pokerlog << "Application::handleMessage, POKER_MSG_LOG_ACCEPT." << endl;
         break;
+    }
+}
+
+
+void Application::onPaint()
+{
+    if (graphic != nullptr)
+    {
+        graphic->BeginDraw();
+        
+        graphic->ClearBackground();
+
+        graphic->ShowPictures();
+        graphic->ShowText( L"Hello, World!");
+
+        graphic->EndDraw();
     }
 }
 

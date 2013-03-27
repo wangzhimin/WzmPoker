@@ -5,7 +5,8 @@
 
 
 PokerSocket::PokerSocket()
-    :m_socket(INVALID_SOCKET)
+    :m_socket(INVALID_SOCKET),
+     m_enable(true)
 {
     Startup();
 }

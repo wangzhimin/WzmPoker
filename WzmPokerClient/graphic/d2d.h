@@ -20,19 +20,21 @@ public:
     HRESULT Initialize( HWND hWnd );
     void CleanUp();
 
+    void InitPicures();
+    void InitTextDevice();
+
     void BeginDraw();
-    void Render();
     void EndDraw();
 
+    void ClearBackground();
     void OnResize(unsigned int width, unsigned int height);
 
-    void LoadPicures();
-    void DrawText(wstring strText);
+    void ShowPictures();
+    void ShowText(wstring strText);
 
 private:
     bool CreateBitmapFromResource(int idPic);
     bool CreateBitmapFromFile(wstring strFileName);
-    void InitTextDevice();
 
     ID2D1Factory* m_pD2DFactory;
     IWICImagingFactory* m_pWICFactory;

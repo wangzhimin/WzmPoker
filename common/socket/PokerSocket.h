@@ -21,8 +21,10 @@ public:
 
 protected:
     SOCKET m_socket;
+    bool m_enable;
 
 private:
+
 };
 
 #endif

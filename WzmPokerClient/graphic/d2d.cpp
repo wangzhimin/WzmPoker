@@ -42,7 +42,9 @@ HRESULT d2d::Initialize( HWND hWnd )
         return S_FALSE;
     }
 
+    InitPicures();
     InitTextDevice();
+
     return S_OK;
 }
 
@@ -58,6 +60,64 @@ void d2d::CleanUp()
     SafeRelease(m_pRenderTarget);
     SafeRelease(m_pD2DFactory);
 }
+
+
+void d2d::InitPicures()
+{
+    //CreateBitmapFromFile(L"102.png");
+    //CreateBitmapFromFile(L"103.png");
+
+    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
+    {
+        CreateBitmapFromResource(index);
+    }
+    pokerlog << "LoadPictures OK." << endl;
+}
+
+
+void d2d::InitTextDevice()
+{
+    if (m_pD2DFactory == nullptr)
+    {
+        return;
+    }
+    
+    // Create a DirectWrite factory.
+    HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(m_pDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+    if (FAILED(hr) || m_pDWriteFactory == nullptr)
+    {
+        return;
+    }
+
+    static const WCHAR msc_fontName[] = L"Verdana";
+    static const FLOAT msc_fontSize = 50;
+
+    // Create a DirectWrite text format object.
+    hr = m_pDWriteFactory->CreateTextFormat(
+            msc_fontName,
+            NULL,
+            DWRITE_FONT_WEIGHT_NORMAL,
+            DWRITE_FONT_STYLE_NORMAL,
+            DWRITE_FONT_STRETCH_NORMAL,
+            msc_fontSize,
+            L"", //locale
+            &m_pTextFormat);
+    
+    if (FAILED(hr) || m_pTextFormat == nullptr)
+    {
+        return;
+    }
+
+    // Center the text horizontally and vertically.
+    m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+
+    m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+    hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_pBlackBrush);
+
+    pokerlog << "InitTextDevice OK." << endl;
+}
+
 
 void d2d::BeginDraw()
 {
@@ -76,11 +136,14 @@ void d2d::EndDraw()
     }
 }
 
-void d2d::Render()
+void d2d::ClearBackground()
 {
-    // Clear background color to dark cyan
+    // Clear background
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
+}
 
+void d2d::ShowPictures()
+{
     // Draw bitmap
     FLOAT left = 20;
     FLOAT top = 300;
@@ -103,7 +166,7 @@ void d2d::Render()
     }
 }
 
-void d2d::DrawText(wstring strText)
+void d2d::ShowText(wstring strText)
 {
     D2D1_SIZE_F renderTargetSize = m_pRenderTarget->GetSize();
     m_pRenderTarget->DrawText(strText.c_str(), strText.size(),
@@ -126,16 +189,6 @@ void d2d::OnResize(unsigned int width, unsigned int height)
 }
 
 
-void d2d::LoadPicures()
-{
-    //CreateBitmapFromFile(L"102.png");
-    //CreateBitmapFromFile(L"103.png");
-
-    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
-    {
-        CreateBitmapFromResource(index);
-    }
-}
 
 bool d2d::CreateBitmapFromResource(int idPic)
 {
@@ -330,46 +383,5 @@ bool d2d::CreateBitmapFromFile(wstring strFileName)
     SafeRelease(pConverter);
 
     return true;
-}
-
-void d2d::InitTextDevice()
-{
-    if (m_pD2DFactory == nullptr)
-    {
-        return;
-    }
-    
-    // Create a DirectWrite factory.
-    HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(m_pDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
-    if (FAILED(hr) || m_pDWriteFactory == nullptr)
-    {
-        return;
-    }
-
-    static const WCHAR msc_fontName[] = L"Verdana";
-    static const FLOAT msc_fontSize = 50;
-
-    // Create a DirectWrite text format object.
-    hr = m_pDWriteFactory->CreateTextFormat(
-            msc_fontName,
-            NULL,
-            DWRITE_FONT_WEIGHT_NORMAL,
-            DWRITE_FONT_STYLE_NORMAL,
-            DWRITE_FONT_STRETCH_NORMAL,
-            msc_fontSize,
-            L"", //locale
-            &m_pTextFormat);
-    
-    if (FAILED(hr) || m_pTextFormat == nullptr)
-    {
-        return;
-    }
-
-    // Center the text horizontally and vertically.
-    m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-
-    m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-
-    hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_pBlackBrush);
 }
 

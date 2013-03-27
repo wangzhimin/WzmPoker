@@ -5,7 +5,6 @@
 #include "ClientSocket.h"
 #include "ThreadObject.h"
 
-class Direct3d;
 class d2d;
 class Application : public CThreadObject
 {
@@ -26,6 +25,7 @@ public:
 private:
     virtual void _process();
     void handleMessage(int msg);
+    void onPaint();
 
     HINSTANCE hInst;
     d2d* graphic;
