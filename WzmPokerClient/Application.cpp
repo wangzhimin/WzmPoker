@@ -56,7 +56,6 @@ bool Application::Initialize()
         MessageBox(hWnd, L"graphic Initialize fail.", L"error", 0);
         return false;
     }
-    graphic->InitTextDevice();
 
     for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
     {
