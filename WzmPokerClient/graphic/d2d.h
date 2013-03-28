@@ -20,7 +20,7 @@ public:
     HRESULT Initialize( HWND hWnd );
     void CleanUp();
 
-    ID2D1Bitmap* CreateBitmapFromResource(int idPic);
+    ID2D1Bitmap* CreateBitmapFromResource(int idPic, int destinationWidth, int destinationHeight);
     ID2D1Bitmap* CreateBitmapFromFile(wstring strFileName);
 
     void BeginDraw();

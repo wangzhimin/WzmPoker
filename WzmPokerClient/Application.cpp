@@ -189,15 +189,24 @@ void Application::HandleKey(unsigned int keyCode)
 //private function
 void Application::LoadBitmapResource()
 {
-    for (int index = IDB_PNG102; index <= IDB_PNG114; ++index)
+    LoadBitmapByIDB(IDB_PNG102, IDB_PNG114);
+    LoadBitmapByIDB(IDB_PNG202, IDB_PNG214);
+    LoadBitmapByIDB(IDB_PNG302, IDB_PNG314);
+    LoadBitmapByIDB(IDB_PNG402, IDB_PNG414);
+}
+
+void Application::LoadBitmapByIDB(int IDB_Start, int IDB_End)
+{
+    for (int index = IDB_Start; index <= IDB_End; ++index)
     {
-        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index);
+        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index, 126, 173);
         if (pBitmap != nullptr)
         {
             m_VecBitmap.push_back(pBitmap);
         }
     }
 }
+
 void Application::UnloadBitmapResource()
 {
     for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
@@ -259,7 +268,7 @@ void Application::onPaint()
         FLOAT left = 20;
         FLOAT top = 300;
 
-        FLOAT deltaX = 50;
+        FLOAT deltaX = 20;
         FLOAT deltaY = 0;
         for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
         {

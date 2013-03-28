@@ -26,6 +26,7 @@ public:
 
 private:
     void LoadBitmapResource();
+    void LoadBitmapByIDB(int IDB_Start, int IDB_End);
     void UnloadBitmapResource();
 
     virtual void _process();

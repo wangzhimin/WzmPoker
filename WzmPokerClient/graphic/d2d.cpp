@@ -52,7 +52,7 @@ void d2d::CleanUp()
     SafeRelease(m_pD2DFactory);
 }
 
-ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic)
+ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic, int destinationWidth, int destinationHeight)
 {
     // Locate the resource.
     HRSRC imageResHandle = FindResource(NULL, MAKEINTRESOURCE(idPic), L"PNG");
@@ -128,9 +128,6 @@ ID2D1Bitmap* d2d::CreateBitmapFromResource(int idPic)
     {
         return nullptr;
     }
-
-    int destinationWidth = 0;
-    int destinationHeight = 0;
 
     // If a new width or height was specified, create an
     // IWICBitmapScaler and use it to resize the image.
