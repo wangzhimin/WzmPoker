@@ -14,7 +14,7 @@ public:
     void Create();
     void Close();
     
-    bool Connect();
+    void Connect();
     bool isConnected() { return connected; }
 
 private:

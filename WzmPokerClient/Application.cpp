@@ -63,8 +63,10 @@ bool Application::Initialize()
     ShowWindow( hWnd, SW_SHOWDEFAULT );
     UpdateWindow( hWnd );
 
+    clientSocket.Disable();
     clientSocket.Create();
     clientSocket.Connect();
+    StartThread();
 
     m_run = true;
 
@@ -79,6 +81,7 @@ void Application::CleanUp()
 {
     m_run = false;
 
+    WaitForExit();
     clientSocket.Close();
 
     UnloadBitmapResource();
@@ -206,6 +209,12 @@ void Application::UnloadBitmapResource()
 
 void Application::_process()
 {
+    if (!clientSocket.isConnected())
+    {
+        pokerlog << "Application::_process(), Client Socket is not Connected." << endl;
+        return;
+    }
+
     char buf[1024] = {0};
     int len = 1024;
 

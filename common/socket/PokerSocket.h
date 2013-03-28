@@ -10,6 +10,9 @@ class PokerSocket
 public:
     PokerSocket();
     virtual ~PokerSocket();
+    
+    inline void Enable();
+    inline void Disable();
 
     void Startup();
     void Cleanup();
@@ -26,6 +29,17 @@ protected:
 private:
 
 };
+
+void PokerSocket::Enable()
+{
+    m_enable = true;
+}
+
+void PokerSocket::Disable()
+{
+    m_enable = false;
+}
+
 
 #endif
 

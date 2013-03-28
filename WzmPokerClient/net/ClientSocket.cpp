@@ -2,7 +2,6 @@
 #include "ClientSocket.h"
 #include "Exception.h"
 
-
 #include "PokerLog.h"
 
 
@@ -50,12 +49,17 @@ void ClientSocket::Close()
     pokerlog << "ClientSocket::Close() ok." << endl;
 }
 
-bool ClientSocket::Connect()
+void ClientSocket::Connect()
 {
+    if (!m_enable)
+    {
+        return;
+    }
+
 	LPHOSTENT lpHost = gethostbyname("192.168.100.102");
     if (lpHost == NULL)
     {
-        return false;
+        return;
     }
 
     struct sockaddr_in server;
@@ -64,19 +68,20 @@ bool ClientSocket::Connect()
 	server.sin_addr.s_addr = *((u_long FAR*)(lpHost->h_addr));
 	server.sin_port = htons(1234);
 
-    int resConnect = connect(m_socket, (LPSOCKADDR)&server,sizeof(SOCKADDR));
+    int resConnect = connect(m_socket, (LPSOCKADDR)&server, sizeof(SOCKADDR));
     if (resConnect == SOCKET_ERROR)
     {
-        pokerlog << "ClientSocket::Connect() connect fail." << endl;
+        int errorno = WSAGetLastError();
+        pokerlog << "ClientSocket::Connect() connect fail, ErrNo = " << errorno << endl;
 
-        return false;
+        return;
     }
     
     connected = true;
 
     pokerlog << "ClientSocket::Connect() ok." << endl;
 
-    return true;
+    return;
 }
 
 
