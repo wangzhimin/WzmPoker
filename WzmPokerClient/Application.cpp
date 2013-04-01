@@ -57,7 +57,7 @@ bool Application::Initialize()
         return false;
     }
 
-    LoadBitmapResource();
+    pokerBox.Initialize(graphic);
     
     //ÏÔÊ¾Ö÷´°¿Ú
     ShowWindow( hWnd, SW_SHOWDEFAULT );
@@ -84,7 +84,7 @@ void Application::CleanUp()
     WaitForExit();
     clientSocket.Close();
 
-    UnloadBitmapResource();
+    pokerBox.Cleanup();
 
     graphic->CleanUp();
     UnregisterClass( class_name, hInst );
@@ -187,34 +187,6 @@ void Application::HandleKey(unsigned int keyCode)
 }
 
 //private function
-void Application::LoadBitmapResource()
-{
-    LoadBitmapByIDB(IDB_PNG102, IDB_PNG114);
-    LoadBitmapByIDB(IDB_PNG202, IDB_PNG214);
-    LoadBitmapByIDB(IDB_PNG302, IDB_PNG314);
-    LoadBitmapByIDB(IDB_PNG402, IDB_PNG414);
-}
-
-void Application::LoadBitmapByIDB(int IDB_Start, int IDB_End)
-{
-    for (int index = IDB_Start; index <= IDB_End; ++index)
-    {
-        ID2D1Bitmap* pBitmap = graphic->CreateBitmapFromResource(index, 126, 173);
-        if (pBitmap != nullptr)
-        {
-            m_VecBitmap.push_back(pBitmap);
-        }
-    }
-}
-
-void Application::UnloadBitmapResource()
-{
-    for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-    {
-        SafeRelease(*it);
-    }
-    m_VecBitmap.clear();
-}
 
 void Application::_process()
 {
@@ -265,21 +237,8 @@ void Application::onPaint()
 
         graphic->ClearBackground();
 
-        FLOAT left = 20;
-        FLOAT top = 300;
+        pokerBox.dump();
 
-        FLOAT deltaX = 20;
-        FLOAT deltaY = 0;
-        for(auto it = m_VecBitmap.begin(); it != m_VecBitmap.end(); ++it)
-        {
-            if ((*it) != nullptr)
-            {
-                graphic->ShowBitmap((*it), left, top);
-
-                left += deltaX;
-                top  += deltaY;
-            }
-        }
         D2D1_RECT_F pos = {100, 100, 300, 300};
 
         graphic->ShowText( L"Hello, World!", pos);

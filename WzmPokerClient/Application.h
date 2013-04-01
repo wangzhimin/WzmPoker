@@ -6,7 +6,7 @@
 #include "ThreadObject.h"
 
 #include "d2d.h"
-
+#include "PokerBox.h"
 
 class Application : public CThreadObject
 {
@@ -38,8 +38,7 @@ private:
 
     bool m_run;
     ClientSocket clientSocket;
-
-    vector<ID2D1Bitmap*> m_VecBitmap;
+    PokerBox pokerBox;
 };
 
 
