@@ -59,6 +59,13 @@ bool Application::Initialize()
 
     pokerBox.Initialize(graphic);
     
+    for (int num = 0; num < 5; ++num)
+    {
+        PokerFace nextPoker = pokerBox.GetNextPoker();
+
+        pokerTable.Add(nextPoker);
+    }
+    
     //ÏÔÊ¾Ö÷´°¿Ú
     ShowWindow( hWnd, SW_SHOWDEFAULT );
     UpdateWindow( hWnd );
@@ -237,7 +244,7 @@ void Application::onPaint()
 
         graphic->ClearBackground();
 
-        pokerBox.dump();
+        pokerTable.Show(graphic);
 
         D2D1_RECT_F pos = {100, 100, 300, 300};
 

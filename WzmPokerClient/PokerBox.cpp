@@ -17,6 +17,8 @@ void PokerBox::Initialize(d2d* g)
     LoadBitmapByIDB(IDB_PNG202, IDB_PNG214);
     LoadBitmapByIDB(IDB_PNG302, IDB_PNG314);
     LoadBitmapByIDB(IDB_PNG402, IDB_PNG414);
+
+    //random_shuffle
 }
 
 void PokerBox::LoadBitmapByIDB(int IDB_Start, int IDB_End)
@@ -32,6 +34,9 @@ void PokerBox::LoadBitmapByIDB(int IDB_Start, int IDB_End)
         if (pBitmap != nullptr)
         {
             allPokers[index] = pBitmap;
+
+            PokerFace face(index, pBitmap);
+            pokerFactory.push_back(face);
         }
     }
 }
@@ -51,6 +56,15 @@ void PokerBox::Cleanup()
         allPokers.clear();
     }
 }
+
+PokerFace PokerBox::GetNextPoker()
+{
+    PokerFace& onePoker = pokerFactory.front();
+    pokerFactory.pop_front();
+
+    return onePoker;
+}
+
 
 void PokerBox::dump()
 {

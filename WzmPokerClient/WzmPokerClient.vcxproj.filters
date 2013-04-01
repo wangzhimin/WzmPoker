@@ -44,6 +44,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PokerFace.cpp" />
     <ClCompile Include="PokerBox.cpp" />
+    <ClCompile Include="PokerTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\Exception.h">
@@ -71,6 +72,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="PokerFace.h" />
     <ClInclude Include="PokerBox.h" />
+    <ClInclude Include="PokerTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WzmPokerClient.rc">

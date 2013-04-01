@@ -7,6 +7,8 @@
 
 #include "d2d.h"
 #include "PokerBox.h"
+#include "PokerTable.h"
+
 
 class Application : public CThreadObject
 {
@@ -39,6 +41,7 @@ private:
     bool m_run;
     ClientSocket clientSocket;
     PokerBox pokerBox;
+    PokerTable pokerTable;
 };
 
 

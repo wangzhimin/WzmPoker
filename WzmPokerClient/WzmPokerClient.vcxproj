@@ -107,6 +107,7 @@
     <ClCompile Include="net\ClientSocket.cpp" />
     <ClCompile Include="PokerBox.cpp" />
     <ClCompile Include="PokerFace.cpp" />
+    <ClCompile Include="PokerTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\Exception.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="net\ClientSocket.h" />
     <ClInclude Include="PokerBox.h" />
     <ClInclude Include="PokerFace.h" />
+    <ClInclude Include="PokerTable.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
