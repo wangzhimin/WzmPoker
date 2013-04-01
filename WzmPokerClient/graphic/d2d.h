@@ -6,7 +6,6 @@
 #include <wincodec.h>
 #include <dwrite.h>
 
-#include <vector>
 #include <string>
 using namespace std;
 

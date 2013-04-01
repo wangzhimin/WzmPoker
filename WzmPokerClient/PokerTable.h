@@ -14,6 +14,8 @@ public:
     void Add(PokerFace& poker);
     void Show(d2d* graphic);
 private:
+    void ShowPokersOnTable(d2d* g);
+
     vector<PokerFace> pokerFaces;
 };
 

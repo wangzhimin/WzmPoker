@@ -4,6 +4,11 @@
 #include "d2d.h"
 #include "resource.h"
 
+#include <ctime> 
+#include <algorithm>
+using namespace std;
+
+
 PokerBox::PokerBox()
     :graphic(nullptr)
 {
@@ -18,7 +23,8 @@ void PokerBox::Initialize(d2d* g)
     LoadBitmapByIDB(IDB_PNG302, IDB_PNG314);
     LoadBitmapByIDB(IDB_PNG402, IDB_PNG414);
 
-    //random_shuffle
+    srand( (unsigned)time(NULL) ); //设置随即数生成器的种子 
+    random_shuffle(pokerFactory.begin(), pokerFactory.end());
 }
 
 void PokerBox::LoadBitmapByIDB(int IDB_Start, int IDB_End)
@@ -35,6 +41,7 @@ void PokerBox::LoadBitmapByIDB(int IDB_Start, int IDB_End)
         {
             allPokers[index] = pBitmap;
 
+            //初始化一副牌
             PokerFace face(index, pBitmap);
             pokerFactory.push_back(face);
         }
@@ -57,6 +64,7 @@ void PokerBox::Cleanup()
     }
 }
 
+//发一张牌
 PokerFace PokerBox::GetNextPoker()
 {
     PokerFace& onePoker = pokerFactory.front();

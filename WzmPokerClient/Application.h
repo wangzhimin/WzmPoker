@@ -5,11 +5,10 @@
 #include "ClientSocket.h"
 #include "ThreadObject.h"
 
-#include "d2d.h"
 #include "PokerBox.h"
 #include "PokerTable.h"
 
-
+class d2d;
 class Application : public CThreadObject
 {
 public:
@@ -27,10 +26,6 @@ public:
     void HandleKey(unsigned int keyCode);
 
 private:
-    void LoadBitmapResource();
-    void LoadBitmapByIDB(int IDB_Start, int IDB_End);
-    void UnloadBitmapResource();
-
     virtual void _process();
     void handleMessage(int msg);
     void onPaint();

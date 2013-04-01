@@ -1,7 +1,7 @@
 
 #include "d2d.h"
+
 #include "PokerLog.h"
-#include "resource.h"
 
 d2d::d2d()
     :m_pD2DFactory(nullptr),

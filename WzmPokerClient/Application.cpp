@@ -1,6 +1,7 @@
 
 #include "Application.h"
 
+#include "d2d.h"
 #include "PokerMessage.h"
 #include "PokerLog.h"
 #include "resource.h"
