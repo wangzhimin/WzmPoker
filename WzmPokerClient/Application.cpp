@@ -60,12 +60,7 @@ bool Application::Initialize()
 
     pokerBox.Initialize(graphic);
     
-    for (int num = 0; num < 5; ++num)
-    {
-        PokerFace nextPoker = pokerBox.GetNextPoker();
-
-        pokerTable.Add(nextPoker);
-    }
+    dealPoker();
     
     //显示主窗口
     ShowWindow( hWnd, SW_SHOWDEFAULT );
@@ -247,13 +242,20 @@ void Application::onPaint()
 
         pokerTable.Show(graphic);
 
-        D2D1_RECT_F pos = {100, 100, 300, 300};
-
-        graphic->ShowText( L"Hello, World!", pos);
+        
 
         graphic->EndDraw();
     }
 }
 
+//发牌
+void Application::dealPoker()
+{
+    for (int num = 0; num < 5; ++num)
+    {
+        PokerFace nextPoker = pokerBox.GetNextPoker();
 
+        pokerTable.Add(nextPoker);
+    }
+}
 

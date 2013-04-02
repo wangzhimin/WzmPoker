@@ -30,6 +30,8 @@ private:
     void handleMessage(int msg);
     void onPaint();
 
+    void dealPoker();
+
     HINSTANCE hInst;
     d2d* graphic;
 

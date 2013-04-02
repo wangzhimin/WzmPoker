@@ -34,7 +34,7 @@ public:
 
 private:
     bool InitBitmapDevice();
-    void InitTextDevice(const wstring fontName = L"ËÎÌו", FLOAT fontSize = 12);
+    void InitTextDevice(const wstring fontName = L"ËÎÌו", FLOAT fontSize = 18);
 
     ID2D1Factory* m_pD2DFactory;
     IWICImagingFactory* m_pWICFactory;

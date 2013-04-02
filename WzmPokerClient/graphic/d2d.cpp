@@ -334,7 +334,6 @@ void d2d::InitTextDevice(const wstring fontName, FLOAT fontSize)
 
     // Center the text horizontally and vertically.
     m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-
     m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
     hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_pBlackBrush);
