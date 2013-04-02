@@ -20,13 +20,13 @@ void PokerTable::ShowPokersOnTable(d2d* g)
     FLOAT left = 20;
     FLOAT top = 300;
 
-    FLOAT deltaX = 20;
+    FLOAT deltaX = 10;
     FLOAT deltaY = 0;
-    for (auto poker : pokerFaces)
+    for (auto face : pokerFaces)
     {
-        g->ShowBitmap(poker.GetBitmap(), left, top);
+        g->ShowBitmap(face.GetBitmap(), left, top);
 
-        left += deltaX;
+        left += deltaX + face.GetWidth(); //向右一个牌面+一个空隙
         top  += deltaY;
     }
 }
