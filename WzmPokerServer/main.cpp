@@ -3,13 +3,15 @@
 using namespace std;
 
 #include "PokerLog.h"
-#include "Application.h"
+#include "PokerGameApp.h"
+#include "MainWindow.h"
 
-int main()
+
+int SmartWinMain(Application & app)
 {
-    try
+    /*try
     {
-        Application app;
+        PokerGameApp app;
         app.Run();
     }
     catch(exception& ex)
@@ -20,5 +22,10 @@ int main()
     cout << endl << "程序执行完毕！ " << endl << endl;
     cout << "请按 Enter 键退出..." << endl;
 
-    cin.get();
+    cin.get();*/
+    new MainWindow();
+
+    app.run();
+
+    return 0;
 }

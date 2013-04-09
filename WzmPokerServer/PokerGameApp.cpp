@@ -1,5 +1,5 @@
 
-#include "Application.h"
+#include "PokerGameApp.h"
 
 #include "GameServerThread.h"
 #include "PokerLog.h"
@@ -11,7 +11,7 @@ using namespace std;
 /**
  * 构造函数.
  */
-Application::Application()
+PokerGameApp::PokerGameApp()
     :m_ptGameServerThread(nullptr)
 {
     pokerlog << "================| " << pokerlog.GetTimeStr("-", ":") << " 游戏服务器启动！ |================" << endl << endl;
@@ -22,7 +22,7 @@ Application::Application()
 /**
  * 析构函数.
  */
-Application::~Application()
+PokerGameApp::~PokerGameApp()
 {
     Cleanup();
 
@@ -32,7 +32,7 @@ Application::~Application()
 /**
  * 初始化操作.
  */
-bool Application::Initialize()
+bool PokerGameApp::Initialize()
 {
     if (m_ptGameServerThread == nullptr)
     {
@@ -53,7 +53,7 @@ bool Application::Initialize()
 /**
  * 清理操作.
  */
-void Application::Cleanup()
+void PokerGameApp::Cleanup()
 {
     if (m_ptGameServerThread != nullptr)
     {
@@ -67,7 +67,7 @@ void Application::Cleanup()
 /**
  * 程序执行主体, 用以接收输入指令.
  */
-int Application::Run()
+int PokerGameApp::Run()
 {
     while(1)
     {

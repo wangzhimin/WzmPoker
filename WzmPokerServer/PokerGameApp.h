@@ -6,11 +6,11 @@ class GameServerThread;
 /**
  * Ö÷³ÌÐò.
  */
-class Application
+class PokerGameApp
 {
 public:
-    Application();
-    virtual ~Application();
+    PokerGameApp();
+    virtual ~PokerGameApp();
 
     int Run();
 
