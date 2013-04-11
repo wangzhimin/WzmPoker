@@ -23,7 +23,12 @@ int SmartWinMain(Application & app)
     cout << "Çë°´ Enter ¼üÍË³ö..." << endl;
 
     cin.get();*/
-    new MainWindow();
+    MainWindow* mainWin = new MainWindow();
+    MainWindow::WidgetButtonPtr startButton = mainWin->createButton();
+
+    startButton->setBounds(10, 10, 100, 50);
+    startButton->setText("start");
+    startButton->onClicked(&MainWindow::buttonClicked);
 
     app.run();
 

@@ -57,43 +57,12 @@ void PokerGameApp::Cleanup()
 {
     if (m_ptGameServerThread != nullptr)
     {
+        m_ptGameServerThread->Stop();
+
         delete m_ptGameServerThread;
         m_ptGameServerThread = nullptr;
     }
 
     pokerlog << "Application::Cleanup OK." << endl;
-}
-
-/**
- * 程序执行主体, 用以接收输入指令.
- */
-int PokerGameApp::Run()
-{
-    while(1)
-    {
-        string strStop;
-        getline(cin, strStop);
-        if (!strStop.empty())
-        {
-            cout << "接收到指令:" << strStop << endl;
-
-            if (strStop == "stop") //停止
-            {
-                if (m_ptGameServerThread != nullptr)
-                {
-                    m_ptGameServerThread->Stop();
-                }
-
-                cout << "程序中止. Stopping ......." << endl;
-                break;
-            }
-            else
-            {
-                cout << "无效指令!" << endl;
-            }
-        }
-    }
-   
-    return 1;
 }
 

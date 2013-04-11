@@ -63,6 +63,11 @@ void GameServerThread::_process()
 {
     while(m_bRun)
     {
+        if (server_socket == nullptr)
+        {
+            break;
+        }
+
         SOCKET s = server_socket->Accept();
         if (s != INVALID_SOCKET)
         {

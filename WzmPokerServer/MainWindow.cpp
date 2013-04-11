@@ -1,7 +1,11 @@
 
 #include "MainWindow.h"
 
+#include "PokerGameApp.h"
+
+
 MainWindow::MainWindow()
+    :gameApp(nullptr)
 {
     WidgetWindow::Seed windowCS;
 
@@ -12,5 +16,22 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::buttonClicked( WidgetButtonPtr btn )
+{
+    if (gameApp == nullptr)
+    {
+        gameApp = new PokerGameApp();
+
+        btn->setText("stop");
+
+        return;
+    }
+
+    delete gameApp;
+    gameApp = nullptr;
+
+    btn->setText("start");
 }
 

@@ -12,8 +12,6 @@ public:
     PokerGameApp();
     virtual ~PokerGameApp();
 
-    int Run();
-
 private:
     bool Initialize();
     void Cleanup();
