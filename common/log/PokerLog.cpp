@@ -9,7 +9,6 @@
 PokerLog::PokerLog()
     :m_bEnabled(true)
 {
-    Open();
 }
 
 /**
@@ -20,7 +19,6 @@ PokerLog::PokerLog()
  */
 PokerLog::~PokerLog()
 {
-    Close();
 }
 
 /**
@@ -31,14 +29,19 @@ PokerLog::~PokerLog()
  */
 bool PokerLog::Open()
 {
-    //得到日期的字符串
-    string sDateStr = GetTimeStr("-", ".");
+    if (m_bEnabled)
+    {
+        //得到日期的字符串
+        string sDateStr = GetTimeStr("-", ".");
 
-    return Open("Poker_" + sDateStr + ".Log");
+        return Open("Poker_" + sDateStr + ".Log");
+    }
+
+    return false;
 }
 
 /**
- * 打开只能名字的文件.
+ * 打开指定名字的文件.
  *
  * @author wangzhimin
  * @date 2009-12-06
@@ -63,9 +66,12 @@ bool PokerLog::Open(string sFileName)
  */
 void PokerLog::Close()
 {
-    if(m_tOLogFile.is_open())
+    if (m_bEnabled)
     {
-        m_tOLogFile.close();
+        if(m_tOLogFile.is_open())
+        {
+            m_tOLogFile.close();
+        }
     }
 }
 

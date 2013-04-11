@@ -14,6 +14,7 @@ using namespace std;
 PokerGameApp::PokerGameApp()
     :m_ptGameServerThread(nullptr)
 {
+    pokerlog.Open();
     pokerlog << "================| " << pokerlog.GetTimeStr("-", ":") << " 游戏服务器启动！ |================" << endl << endl;
 
     Initialize();
@@ -27,6 +28,7 @@ PokerGameApp::~PokerGameApp()
     Cleanup();
 
     pokerlog << "================| " << pokerlog.GetTimeStr("-", ":") << " 游戏服务器停止！ |================" << endl << endl;
+    pokerlog.Close();
 }
 
 /**
@@ -45,7 +47,7 @@ bool PokerGameApp::Initialize()
         m_ptGameServerThread->Start();
     }
 
-    pokerlog << "Application::Initialize OK." << endl;
+    pokerlog << "PokerGameApp::Initialize OK." << endl;
 
     return true;
 }
@@ -63,6 +65,6 @@ void PokerGameApp::Cleanup()
         m_ptGameServerThread = nullptr;
     }
 
-    pokerlog << "Application::Cleanup OK." << endl;
+    pokerlog << "PokerGameApp::Cleanup OK." << endl;
 }
 

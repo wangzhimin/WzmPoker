@@ -40,13 +40,18 @@ bool GameServerThread::Start()
 
     m_bRun = true;
 
-    return StartThread();
+    bool res = StartThread();
+
+    if (res)
+    {
+        pokerlog << "GameServerThread::Start() ok." << endl;
+    }
+
+    return res;
 }
 
 void GameServerThread::Stop()
 {
-    pokerlog << "GameServerThread::Stop() start." << endl;
-
     m_bRun = false;
     WaitForExit();
 
@@ -96,5 +101,4 @@ void GameServerThread::DestroyUsers()
     }
 
     pokerlog << "GameServerThread::DestroyUsers() ok." << endl;
-
 }
